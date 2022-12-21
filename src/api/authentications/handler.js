@@ -106,11 +106,10 @@ class AuthenticationsHandler {
 
   async deleteAuthenticationHandler(request, h) {
     try {
-      await this._validator
-          .validateDeleteAuthenticationPayload(request.payload);
+      this._validator.validateDeleteAuthenticationPayload(request.payload);
 
       const {refreshToken} = request.payload;
-      await this._tokenManager.verifyRefreshToken(refreshToken);
+      await this._authenticationsService.verifyRefreshToken(refreshToken);
       await this._authenticationsService.deleteRefreshToken(refreshToken);
 
       const response = h.response({
